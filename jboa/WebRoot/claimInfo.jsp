@@ -22,60 +22,50 @@
 
 </head>
 
-<body>
-	<table style="width: 100%;">
-		<tr>
-			<td colspan="4">基本信息</td>
-		</tr>
-		<tr>
-			<td>编号：${sessionScope.claim.id }</td>
-			<td>填写人：${sessionScope.claim.employeeByCreateSn.name }</td>
-			<td>部门：${sessionScope.claim.employeeByCreateSn.department.name }</td>
-			<td>职位：${sessionScope.claim.employeeByCreateSn.position.nameCn }</td>
-		</tr>
-		<tr>
-			<td>总金额：${sessionScope.claim.totalAccount }</td>
-			<td>填报时间：<fmt:formatDate
-					value="${sessionScope.claim.createTime}"
-					pattern="yyyy-MM-dd hh:mm:ss" />
-			</td>
-			<td>状态：${sessionScope.claim.status }</td>
-			<td>待处理人：${sessionScope.claim.employeeByNextDealSn.name }</td>
-		</tr>
+<body style="padding: 30px;">
+	<div style="padding: 0px 50px 50px 25px;">
+		<br />
+		<table class="claim_info">
+			<thead>
+				<tr>
+					<td colspan="4" style="line-height: 30px;"><h3>基本信息</h3></td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>编&nbsp;号:&nbsp;<span id="claim_id"></span></td>
+					<td>填 写 人:&nbsp;<span id="claim_create_name"></span></td>
+					<td>部&nbsp;门:&nbsp;<span id="claim_dept_name"></span></td>
+					<td>职&nbsp;&nbsp;位:&nbsp;<span id="claim_position_name"></span>
+					</td>
+				</tr>
+				<tr>
+					<td>总金额:&nbsp;<span id="claim_total_account"></span>
+					</td>
+					<td>填报时间:&nbsp;<span id="claim_create_time"></span>
+					</td>
+					<td>状&nbsp;态:&nbsp;<span id="claim_status"></span>
+					</td>
+					<td>待处理人:&nbsp;<span id="claim_next_deal_sn"></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<hr />
+		<br /> <br />
 
-		<!-- 
-				Date date = ((ClaimVoucher) session.getAttribute("claim"))
-						.getCreateTime();
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd : hh:mm:ss");
-				out.write(sdf.format(date));
-			 -->
-	</table>
-	<br />
-	<hr />
-	<br />
-	<table style="width: 100%;margin-bottom: 15px;">
-		<tr>
-			<td>项目类型</td>
-			<td>项目金额</td>
-			<td>费用说明</td>
-		</tr>
-		<c:forEach var="detail"
-			items="${sessionScope.claim.claimVoucherDetails}">
-			<tr>
-				<td><c:out value="${detail.item }"></c:out>
-				</td>
-				<td><c:out value="${detail.account }"></c:out>
-				</td>
-				<td><c:out value="${detail.des }"></c:out>
-				</td>
-			</tr>
-		</c:forEach>
-	</table>
-	<hr />
-	<br />
-	<br />
-	<div style="padding: 0px 0px 50px 25px;">
-		<a href="javascript:void(0)" id="closeThisTab">返回</a>
+		<table class="claim_info">
+			<thead>
+				<tr>
+					<td>项目类别</td>
+					<td>项目金额</td>
+					<td>费用说明</td>
+				</tr>
+			</thead>
+			<tbody id="claim_detail_list"></tbody>
+		</table>
+		<hr />
+		<br /> <a href="javascript:void(0)" id="closeThisTab">返&nbsp;&nbsp;&nbsp;回</a>
 	</div>
 </body>
 </html>

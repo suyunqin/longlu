@@ -28,8 +28,10 @@ public class LoginAction extends ActionSupport implements SessionAware {
 
 		emp = this.employeeDAO.findById(empId);
 
-		if (emp != null) {
-			this.session.put("position", this.positionDAO.findById(emp.getPosition_id()).getNameCn());
+		if (emp != null && emp.getPassword().equals(password)) {
+			String posion_name = this.positionDAO
+					.findById(emp.getPosition_id()).getNameCn();
+			this.session.put("position", posion_name);
 			this.session.put("user", emp);
 			result = true;
 		}

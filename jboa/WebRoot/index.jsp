@@ -7,7 +7,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<title>Login</title>
+<title>Welcome to JBOA System!</title>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
@@ -19,6 +19,7 @@
 <link rel="stylesheet" href="css/index.css" type="text/css"></link>
 <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
 <script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="js/claimInfo.js"></script>
 <script type="text/javascript" src="js/index.js" charset="utf-8"></script>
 <link rel="stylesheet" href="css/comm.css" type="text/css"></link>
 <script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
@@ -48,14 +49,11 @@
 			<table id="loginTBL">
 				<tr>
 					<td class="label">工号：</td>
-					<td><input name="empId" type="text" onfocus="clearIDMsg(this)" />
-					</td>
+					<td><input name="empId" type="text" /></td>
 				</tr>
 				<tr>
 					<td class="label">密码：</td>
-					<td><input name="password" type="password" /> <input
-						name="msg" type="text" onfocus="replacePwdBox(this)" />
-					</td>
+					<td><input name="password" type="password" /></td>
 				</tr>
 			</table>
 		</form>

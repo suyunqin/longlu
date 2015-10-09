@@ -57,7 +57,6 @@ public class ClaimVoucherAction extends ActionSupport implements SessionAware {
 
 	public String findById() {
 		ClaimVoucher temp = claimVoucherDAO.findById(claimID);
-
 		this.session.put("claim", temp);
 		booleanResult = true;
 		return SUCCESS;
