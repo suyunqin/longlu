@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+	<package name="suoyi" namespace="/" extends="json-default">
+		<action name="login" class="com.jboa.control.LoginAction"
+			method="login">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="isLogin" class="com.jboa.control.LoginAction"
+			method="isLogin">
+			<result type="json">
+				<param name="root">result</param>
+			</result>
+		</action>
+
+		<action name="getClaimVouchers" class="com.jboa.control.ClaimVoucherAction"
+			method="findByPage">
+			<result type="json">
+				<param name="root">jsonResult</param>
+			</result>
+			<result name="input" type="json">loginInfo</result>
+		</action>
+
+		<action name="getClaim" class="com.jboa.control.ClaimVoucherAction"
+			method="findById">
+			<result type="json">
+				<param name="root">booleanResult</param>
+			</result>
+		</action>
+		<action name="clearClaimInfo" class="com.jboa.control.ClaimVoucherAction"
+			method="clearClaimInfo">
+			<result type="json">
+				<param name="root">booleanResult</param>
+			</result>
+		</action>
+	</package>
+
+</struts>    
