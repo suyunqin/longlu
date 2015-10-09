@@ -46,23 +46,24 @@ $(function() {
 	addTab("报销单列表");
 });
 
-function addTab(title) {
+function addTab(createTitle) {
 	var tabs = $("#tabs");
-	if (tabs.tabs('exists', title)) {
-		tabs.tabs('select', title);
+	if (tabs.tabs('exists', createTitle)) {
+		tabs.tabs('select', createTitle);
 		return;
 	}
 
-	var href = "", onLoad = function() {
-	}, onClose = function() {
+	var href = "", load_success = function() {
+	}, close = function() {
+	}, unselect = function() {
 	};
 
-	if (title == "报销单列表") {
+	if (createTitle == "报销单列表") {
 		href = 'claimList.jsp';
-		onLoad = claimLoadSuccess;
-	} else if (title == "更新报销单") {
+		load_success = claimLoadSuccess;
+	} else if (createTitle == "更新报销单") {
 		href = "editclaimInfo.jsp";
-		onLoad = function() {
+		load_success = function() {
 			$("#closeThisTab").linkbutton({
 				iconCls : 'icon-undo',
 				onClick : function() {
@@ -70,32 +71,43 @@ function addTab(title) {
 				}
 			});
 		};
-	} else if (title == "请假列表") {
+	} else if (createTitle == "请假列表") {
 
-	} else if (title == "请假申请") {
+	} else if (createTitle == "请假申请") {
 
-	} else if (title == "查看报销单") {
+	} else if (createTitle == "查看报销单") {
 		href = "claimInfo.jsp";
-		onLoad = function() {
+		load_success = function() {
 			$("#closeThisTab").linkbutton({
 				iconCls : 'icon-undo',
 				onClick : function() {
-					$("#tabs").tabs('close', title);
+					$("#tabs").tabs('close', createTitle);
 				}
 			});
 		};
-		onClose = function(title, index) {
+		close = function(title, index) {
 			alert("close >>" + title);
 			$.get('clearClaimInfo');
 		};
+		unselect = function(title, index) {
+			alert(title);
+		};
 	}
 
+	/**
+	 * esayui这个位置可能存在bug 
+	 * onClose事件，onBeforeClose事件都会在取消选择的时候被调用 而不是关闭后和关闭前
+	 * onUnselect事件不会被调用
+	 */
 	tabs.tabs('add', {
-		title : title,
+		title : createTitle,
 		closable : true,
 		href : href,
-		onLoad : onLoad,
-		onClose : onClose
+		onLoad : load_success,
+		//onBeforeClose : close,
+		onUnselect : function(title, index) {
+			alert(title);
+		}
 	});
 }
 
@@ -116,22 +128,28 @@ function claimLoadSuccess() {
 			field : 'create_name',
 			title : '填报人',
 			align : 'center',
-			width : 20
+		// width : 8
 		}, {
 			field : 'total_account',
 			title : '总金额',
 			align : 'center',
-			width : 15
+		// width : 8
 		}, {
 			field : 'status',
 			title : '状态',
 			align : 'center',
-			width : 15
+		// width : 8
 		}, {
 			field : 'next_deal_name',
 			title : '待处理人',
 			align : 'center',
-			width : 15
+		// width : 8
+		}, {
+			field : 'do_something',
+			title : '操作',
+			align : 'center',
+			formatter : columsFormatter,
+			width : 30
 		} ] ],
 		singleSelect : true,
 		striped : true,
@@ -141,80 +159,81 @@ function claimLoadSuccess() {
 		pagination : true,
 		pagePosition : 'bottom',
 		// fit : true,
-		pageSize : 15,
-		pageList : [ 15, 30 ],
+		pageSize : 10,
+		pageList : [ 10, 20 ],
 		method : 'post',
-		onClickRow : click_row
+		// onClickRow : click_row,
+		onLoadSuccess : function() {
+			create_datagrid_toolbar();
+			$(this).datagrid('fixRowHeight');
+		}
 	});
-	create_datagrid_toolbar();
 }
 
-function click_row(index, rowData) {
-	create_datagrid_toolbar();
-	if (rowData != null) {
-		if (rowData.status == "新创建") {
-			$("#claimListToolbar_Edit").linkbutton({
-				disabled : false
-			});
-			$("#claimListToolbar_Del").linkbutton({
-				disabled : false
-			});
-		}
-	} else
-		$.messager.show({
-			title : 'Msg',
-			msg : '请先选择一个要编辑的报销单！',
-			timeout : 1500
-		});
+function columsFormatter(value, row, index) {
+	var result = "<a href='javascript:void(0);' class='claimListToolbar_Edit'>编辑</a>&nbsp;"
+			+ "<a href='javascript:void(0);' class='claimListToolbar_Del'>删除</a>&nbsp;"
+			+ "<a href='javascript:void(0);' class='claimListToolbar_ShowInfo' onClick='show_info("
+			+ row.id + ")'>查看</a>";
+	return result;
 }
+
+// function click_row(index, rowData) {
+// create_datagrid_toolbar();
+// if (rowData != null) {
+// if (rowData.status == "新创建") {
+// $("#claimListToolbar_Edit").linkbutton({
+// disabled : false
+// });
+// $("#claimListToolbar_Del").linkbutton({
+// disabled : false
+// });
+// }
+// } else
+// $.messager.show({
+// title : 'Msg',
+// msg : '请先选择一个要编辑的报销单！',
+// timeout : 1500
+// });
+// }
 
 function create_datagrid_toolbar() {
-	$("#claimListToolbar_Edit").linkbutton({
+	$(".claimListToolbar_Edit").linkbutton({
 		iconCls : 'icon-edit',
-		disabled : true,
-		onClick : edit_info
+	// height : 20
 	});
-	$("#claimListToolbar_Del").linkbutton({
+	$(".claimListToolbar_Del").linkbutton({
 		iconCls : 'icon-no',
-		disabled : true
+	// height : 20
 	});
-	$("#claimListToolbar_weizhi").linkbutton({
-		iconCls : 'icon-edit',
-		disabled : true
-	});
-	$("#claimListToolbar_ShowInfo").linkbutton({
+	// $("#claimListToolbar_weizhi").linkbutton({
+	// iconCls : 'icon-edit',
+	// disabled : true
+	// });
+	$(".claimListToolbar_ShowInfo").linkbutton({
 		iconCls : 'icon-search',
-		onClick : show_info
+	// height : 20
 	});
 }
 
-function edit_info() {
-	var row = $("#claimList").datagrid('getSelected');
-	if (row == null) {
-		$.messager.show({
-			title : 'Msg',
-			msg : '请先选择一个要查看的报销单！',
-			timeout : 1500
-		});
-		return;
-	}
+function edit_info(id) {
 	$.post('getClaim', "claimID=" + row.id, function(data) {
 		if (data || data == "true")
 			addTab('更新报销单');
 	});
 }
 
-function show_info() {
-	var row = $("#claimList").datagrid('getSelected');
-	if (row == null) {
-		$.messager.show({
-			title : 'Msg',
-			msg : '请先选择一个要查看的报销单！',
-			timeout : 1500
-		});
-		return;
-	}
-	$.post('getClaim', "claimID=" + row.id, function(data) {
+function show_info(id) {
+	// var row = $("#claimList").datagrid('getSelected');
+	// if (row == null) {
+	// $.messager.show({
+	// title : 'Msg',
+	// msg : '请先选择一个要查看的报销单！',
+	// timeout : 1500
+	// });
+	// return;
+	// }
+	$.post('getClaim', "claimID=" + id, function(data) {
 		if (data || data == "true")
 			addTab('查看报销单');
 	});

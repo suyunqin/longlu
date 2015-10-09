@@ -46,4 +46,8 @@
 		select
 		count(c.id) from BIZ_CLAIM_VOUCHER c where c.create_sn = #{create_sn}
 	</select>
+	
+	<select id="findClaimVoucherBySn" >
+		
+	</select>
 </mapper>

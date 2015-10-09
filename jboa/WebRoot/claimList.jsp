@@ -21,12 +21,12 @@
 </head>
 
 <body>
-	<div id="claimListToolbar">
+	<!-- <div id="claimListToolbar">
 		<a href="javascript:void(0);" id="claimListToolbar_Edit">编辑</a>&nbsp;&nbsp;
 		<a href="javascript:void(0);" id="claimListToolbar_Del">删除</a>&nbsp;&nbsp;
 		<a href="javascript:void(0);" id="claimListToolbar_weizhi">？？？</a>&nbsp;&nbsp;
 		<a href="javascript:void(0);" id="claimListToolbar_ShowInfo">查看</a>
-	</div>
+	</div> -->
 	<table id="claimList"></table>
 </body>
 </html>
