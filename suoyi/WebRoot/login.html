@@ -28,9 +28,14 @@
 }
 a{
 	text-decoration: none;
+	color: #97939b;
 }
 a:hover{
 	color:red;
+}
+body{
+	padding: 0px;
+	margin: 0px;
 }
 </style>
 <script type="text/javascript">
@@ -44,8 +49,10 @@ a:hover{
 		}
 
 		$("#div_login").dialog({
-			title : 'login form',
+			title : 'login',
+			draggable:false,
 			closable : false,
+			left:window.innerWidth*0.4,
 			width : 450,
 			height : 260
 		});
@@ -71,11 +78,15 @@ a:hover{
 			}
 		});
 		$("input[name='sn']").focus();
+		$("#login_bg").attr("width",window.innerWidth-2.1);
+		$("#login_bg").attr("height",window.innerHeight-2.1);
+		$("#login_bg").css("margin","0px auto");
 	});
 	
 </script>
 </head>
 <body>
+	<img alt="" id="login_bg" src="images/login_bg.jpg">
 	<div id="div_login">
 		<form id="form_login" action="login.do" method="post">
 			<table id="table_login" style="width: 100%; height: 100%;">
