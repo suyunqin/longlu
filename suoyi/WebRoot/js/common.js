@@ -12,19 +12,7 @@ function submitForm(){
 }
 
 function doQuery(page_id,curPage,pageSize,target) {
-	
 	var tab = $("#div_tabs_index").tabs('getTab',target);
-
-//	$('#div_tabs_index').tabs('update', {
-//		tab: tab,
-//		options: {
-//			title: '新标题',
-//			content: 'http://www.baidu.com'  // 新内容的URL
-//		}
-//	});
-
-	
-	
 	var params = {
 			"action":'queryForm'
 	};
@@ -34,9 +22,6 @@ function doQuery(page_id,curPage,pageSize,target) {
 	if(pageSize!=''){
 		params.pageSize = pageSize;
 	}
-//
-//	//$("#queryForm_"+page_id).submit();
-//	
 	$("#queryForm_"+page_id).form('submit',{
 		url:'sys/action.do',
 		queryParams:params,
@@ -50,4 +35,10 @@ function doQuery(page_id,curPage,pageSize,target) {
 			});
 		}
 	});
+}
+
+function jumpPage(page_id,pageSize,target) {
+	var curPage = $("#targetpage_"+page_id).val();
+	
+	doQuery(page_id, curPage, pageSize, target);
 }

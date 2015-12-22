@@ -110,25 +110,6 @@ PageBean pageB = (PageBean)map_1.get("pageB");
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doQuery(<%=page_id%>,1,15,<%=target%>)">&nbsp;查&nbsp;询&nbsp;</a>
 		</div>
 	</form>
-	<%-- <div id="data-con" style="width: 95%;margin: 0px auto;height:68%;" >
-		<table class="easyui-datagrid" id="datagrid_<%=page_id%>" class="data_grid" data-options="rownumbers:true,fit:true">
-			<thead>
-				<tr>
-				<%
-					double th_width = 0.95 / tds.size();
-					String bb = String.valueOf(th_width*1068);
-					String aa  = bb.substring(0, bb.indexOf("."));
-					int wd = Integer.valueOf(aa);
-					for (ContentTD td : tds) {
-				%>
-					<th data-options="align:'center',resizable:false,field:'<%=td.getField()%>',width:<%=wd%>,halign:'center'"><%=td.getName() %></th>
-				<%				
-					}
-				%>
-				</tr>
-			</thead>
-		</table>
-	</div> --%>
 	<table id="table_data_<%=page_id %>" style="width: 95%;margin: 0px auto;" cellpadding="0" cellspacing="0">
 		<thead>
 			<tr id="contentTitle">
@@ -175,15 +156,17 @@ PageBean pageB = (PageBean)map_1.get("pageB");
 			%>
 		</tbody>
 	</table>
-	<div id="pagebar">
+	<div class="div_pagebar">
 		<%
 			if(pageB!=null){
 		%>		
 			<a href="javascript:void(0);" onclick="doQuery(<%=page_id%>,1,<%=pageB.getPageSize() %>,<%=target%>)">首页</a>
 			<a href="javascript:void(0);" onclick="doQuery(<%=page_id%>,<%=pageB.getPrePage() %>,<%=pageB.getPageSize() %>,<%=target%>)">上一页</a>
+			<a href="javascript:void(0)" onclick="jumpPage(<%=page_id%>,<%=pageB.getPageSize() %>,<%=target%>)">跳至</a> - <input type="text" id="targetpage_<%=page_id %>" class="easyui-numberbox" value="<%=pageB.getCurPage() %>" 
+			data-options="min:1,max:<%=pageB.getMaxPageNo()%>,width:30,height:20"/>/<%=pageB.getMaxPageNo() %> - 页
 			<a href="javascript:void(0);" onclick="doQuery(<%=page_id%>,<%=pageB.getNextPage() %>,<%=pageB.getPageSize() %>,<%=target%>)">下一页</a>
 			<a href="javascript:void(0);" onclick="doQuery(<%=page_id%>,<%=pageB.getMaxPageNo() %>,<%=pageB.getPageSize() %>,<%=target%>)">尾页</a>
-			<font>共 - <%=pageB.getCount() %> -条记录</font>
+			<font>共 - <%=pageB.getCount() %> - 条记录</font>
 		<%		
 			}
 		%>

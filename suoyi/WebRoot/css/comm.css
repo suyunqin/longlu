@@ -78,11 +78,24 @@ input {
 	text-align: center;
 	background-color: #CCC;
 }
+
 .tr_data_grid:hover{
 	background-color: #cea7d8;
 }
+
 .td_data_grid{
 	border-top: #FFF 1.5px solid;
 	border-left: #FFF 1.5px solid;
 	padding: 2px;
+}
+
+.div_pagebar{
+	width: 75%;
+	margin: 10px auto;
+	font-size: 10px;
+	text-align: right;
+	margin-top: 2px;
+}
+.div_pagebar a{
+	font-size: 10px;
 }
