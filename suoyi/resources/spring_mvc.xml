@@ -30,9 +30,5 @@
 	</bean>
 	
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
-<<<<<<< HEAD
+</beans>
 
-</beans>
-=======
-</beans>
->>>>>>> branch 'master' of https://github.com/suoyi1162796928/suoyiRepository.git
