@@ -37,5 +37,7 @@
 	</form>
 	<hr />
 	<a href="hello/download">下载个人简历</a>
+	<hr />
+	<a href="hello/getJson">获取JSON</a>
 </body>
 </html>

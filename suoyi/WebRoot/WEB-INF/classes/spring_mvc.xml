@@ -29,12 +29,6 @@
 		<property name="maxInMemorySize" value="40960" />
 	</bean>
 	
-	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-		<!-- <property name="interceptors">
-			<list>
-				<ref bean="contextInterceptor" />
-			</list>
-		</property> -->
-	</bean>    
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
 
 </beans>

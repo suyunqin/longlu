@@ -19,7 +19,6 @@
 	-->
 
 </head>
-
 <body>Hello Spring MVC and Maven!
 <a href="../index.jsp">跳回首页</a>
 </body>
