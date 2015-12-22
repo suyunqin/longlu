@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.suoyi.entity.Department" table="sys_department" dynamic-update="true" dynamic-insert="true">
+		<id name="id">
+			<generator class="identity"/>
+		</id>
+		<property name="name" />
+		<bag name="emps" table="sys_emp" inverse="false" cascade="all" order-by="id asc">
+			<key column="id" />
+			<one-to-many class="com.suoyi.entity.Emp" />
+		</bag>
+	</class>
+</hibernate-mapping>

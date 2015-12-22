@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>登录</title>
+<link type="text/css" rel="stylesheet" href="extend/jquery-esayui/themes/default/easyui.css">
+<link type="text/css" rel="stylesheet" href="extend/jquery-esayui/themes/icon.css">
+<script type="text/javascript" src="extend/jquery/jquery.js"></script>
+<script type="text/javascript" src="extend/jquery-esayui/jquery.easyui.min.js"></script>
+<style type="text/css">
+.td_label {
+	text-align: right;
+	font-weight: bolder;
+	padding: 10px;
+	width: 100px;
+}
+
+.th_login {
+	text-align: center;
+	font-weight: bolder;
+	font-size: 30px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.tf_login {
+	text-align: center;
+}
+a{
+	text-decoration: none;
+}
+a:hover{
+	color:red;
+}
+</style>
+<script type="text/javascript">
+	;$(function() {
+		//注册键盘事件 当按下enter键时触发登录按钮的单击事件
+		document.onkeydown = function(event) {
+			var event = event || window.event;
+			if (event.keyCode == 13) {
+				$("#btn_login").click();
+			}
+		}
+
+		$("#div_login").dialog({
+			title : 'login form',
+			closable : false,
+			width : 450,
+			height : 260
+		});
+		
+		$("#btn_login").linkbutton({
+			text : '登&nbsp;录',
+			iconCls : 'icon-ok',
+			onClick : function(e) {
+				if ($("input[name='sn']").val() == ""
+						|| $("input[name='pass']").val() == "") {
+					alert("请输入用户名和密码!");
+					return false;
+				}
+				$("#form_login").submit();
+			}
+		});
+
+		$("#btn_reg").linkbutton({
+			text : '注&nbsp;册',
+			iconCls : 'icon-edit',
+			onClick : function(e) {
+
+			}
+		});
+		$("input[name='sn']").focus();
+	});
+	
+</script>
+</head>
+<body>
+	<div id="div_login">
+		<form id="form_login" action="login.do" method="post">
+			<table id="table_login" style="width: 100%; height: 100%;">
+				<thead>
+					<tr>
+						<td colspan="2" class="th_login">欢迎登录JBOA</td>
+					</tr>
+				</thead>
+				<tr>
+					<td class="td_label">用户名：</td>
+					<td><input name="sn" type="text" /></td>
+				</tr>
+				<tr>
+					<td class="td_label">密&nbsp;码：</td>
+					<td><input name="pass" type="password" />&nbsp;<a href="resetpass.do">忘记密码</a></td>
+				</tr>
+				<tfoot>
+					<tr>
+						<td colspan="2" class="tf_login">
+						<a href="javascript:void(0);" id="btn_login"></a>
+						<a href="javascript:void(0);" id="btn_reg"></a>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</form>
+	</div>
+</body>
+</html>

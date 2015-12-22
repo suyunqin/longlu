@@ -1,0 +1,88 @@
+.h3_notfound{
+	background-color: #400080;
+	color:#FFF;
+	font-size: 30px;
+	font-weight: bold;
+	margin: 10px;
+	padding: 10px 20px;
+	text-decoration: underline;
+}
+
+.font_error_msg{
+	background-color: #a9ccef;
+	color:#FFF;
+	font-size: 14px;
+	font-weight: bold;
+	margin: 10px;
+	padding: 10px 20px;
+}
+
+.td_label {
+	padding: 10px;
+	text-align: right;
+}
+
+.td_field {
+	padding: 10px;
+	text-align: left;
+}
+
+a {
+	text-decoration: none;
+	color:#000;
+}
+
+.td_th {
+	color: #FFF;
+	font-weight:bold;
+	background-color: #656477;
+	text-align: center;
+	border-left: 1px #FFF solid;
+	padding: 3px;
+}
+
+.div_search_form {
+	border: 2px #CCC dotted;
+	width: 95%;
+	padding: 0px 20px 20px 20px;
+	margin: 10px auto;
+	margin-bottom: 20px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+}
+
+input {
+	border: 1px #a9ccef solid;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	padding: 2px;
+}
+
+.readonlyInput {
+	background-color: #ECECEC;
+	border-color: #004080;
+}
+
+.p_search_form_title {
+	text-align: center;
+	background-color: #dceef5;
+	padding: 5px;
+	color: #400080;
+	font-weight: bold;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+.tr_data_grid{
+	text-align: center;
+	background-color: #CCC;
+}
+.tr_data_grid:hover{
+	background-color: #cea7d8;
+}
+.td_data_grid{
+	border-top: #FFF 1.5px solid;
+	border-left: #FFF 1.5px solid;
+	padding: 2px;
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<src>
+	<menu id="1" name="报销流程">
+		<btn id="1" name="新增报销单" href="" />
+		<btn id="2" name="查看报销单" href="jsp/show_list.jsp?target=2" />
+	</menu>
+	<menu id="2" name="请假流程">
+		<btn id="3" name="新增请假条" href="jsp/addLeavePage.jsp?action=add&amp;hibean=Leave&amp;svc=LeaveSvc" />
+		<btn id="4" name="查看请假条" href="sys/action.do?target=1" />
+	</menu>
+	<menu id="3" name="日程管理">
+		<btn id="5" name="添加日程" href="" />
+		<btn id="6" name="我的日程" href="" />
+	</menu>
+</src>
