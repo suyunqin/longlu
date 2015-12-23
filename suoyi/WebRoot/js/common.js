@@ -45,3 +45,7 @@ function jumpPage(page_id,pageSize,target) {
 	
 	doQuery(page_id, curPage, pageSize, target);
 }
+
+function doClear(pageid,name) {
+	$("#input_"+name+"_"+pageid).datebox('setValue', '2012-1-1');
+}

@@ -59,18 +59,18 @@
 					}else if("date".equals(sf.getType())){
 			%>
 						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label>
-						<input name="<%=sf.getField()%>" class="easyui-datebox" data-options="editable:false<%=sf.getIsRead()==null?"":",\"readonly:true\"" %>" value="<%
+						<input name="<%=sf.getField()%>" id="input_<%=page_id %>" class="easyui-datebox" data-options="editable:false<%=sf.getIsRead()==null?"":",\"readonly:true\"" %>" value="<%
 							Object value = search_map.get(sf.getField());
 							if(value!=null){out.print(value);}
-						%>"/>&nbsp;
+						%>"/> <img alt="清空" onclick="doClear('<%=sf.getField() %>','<%=page_id%>')" src="images/clear_16.png" align="middle">&nbsp;
 			<%
 					}else if("datetime".equals(sf.getType())){
 			%>
 						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label>
-						<input name="<%=sf.getField()%>" class="easyui-datetimebox" data-options="editable:false<%=sf.getIsRead()==null?"":",\"readonly:true\"" %>" value="<%
+						<input name="<%=sf.getField()%>" id="input_<%=sf.getField() %>_<%=page_id %>" class="easyui-datetimebox" data-options="editable:false<%=sf.getIsRead()==null?"":",\"readonly:true\"" %>" value="<%
 							Object value = search_map.get(sf.getField());
 							if(value!=null){out.print(value);}
-						%>"/>&nbsp;
+						%>"/> <img alt="清空" onclick="doClear('<%=sf.getField() %>','<%=page_id%>')" src="images/clear_16.png" align="middle">&nbsp;
 			<%
 					}else if(sf.getType().startsWith("list")){
 			%>

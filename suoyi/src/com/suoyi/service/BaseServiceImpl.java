@@ -166,10 +166,16 @@ public class BaseServiceImpl implements BaseService {
 			if (StringUtils.isNotBlank(val)) {
 				if (sb.length() == 0){
 					sb.append(" where ");
-					sb.append(sf.getField()).append("=").append(val);
+					sb.append(sf.getField());
+					if(StringUtils.isNotBlank(sf.getOp())){
+						sb.append(sf.getOp()).append("'").append(val).append("'");
+					}else{
+						sb.append(" = '").append(val).append("'");
+					}
 				}else{
-					sb.append(" and ").append(sf.getField()).append("=").append(val);
+					sb.append(" and ").append(sf.getField()).append(" = '").append(val).append("'");
 				}
+				
 			}
 		}
 		sb.append("  ");
