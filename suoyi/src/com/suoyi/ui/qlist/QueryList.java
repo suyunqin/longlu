@@ -1,14 +1,14 @@
 package com.suoyi.ui.qlist;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import com.suoyi.ui.form.Form;
 
 public class QueryList {
 	private String svc;
 	private String hibean;
-	private List<SearchField> search = new ArrayList<SearchField>();
+	Form search_form = new Form();
 
-	private List<ContentTD> content = new ArrayList<ContentTD>();
+	Content content = new Content();
 
 	public String getSvc() {
 		return svc;
@@ -26,19 +26,19 @@ public class QueryList {
 		this.hibean = hibean;
 	}
 
-	public List<SearchField> getSearch() {
-		return search;
+	public Form getSearch_form() {
+		return search_form;
 	}
 
-	public void setSearch(List<SearchField> search) {
-		this.search = search;
+	public void setSearch_form(Form search_form) {
+		this.search_form = search_form;
 	}
 
-	public List<ContentTD> getContent() {
+	public Content getContent() {
 		return content;
 	}
 
-	public void setContent(List<ContentTD> content) {
+	public void setContent(Content content) {
 		this.content = content;
 	}
 

@@ -1,6 +1,6 @@
-package com.suoyi.ui.qlist;
+package com.suoyi.ui.form;
 
-public class SearchField {
+public class FormField {
 	private String id;
 	private String label;
 	private String field;

@@ -22,8 +22,11 @@ function doQuery(page_id,curPage,pageSize,target) {
 	if(pageSize!=''){
 		params.pageSize = pageSize;
 	}
+	if(target!=''){
+		params.target = target;
+	}
 	$("#queryForm_"+page_id).form('submit',{
-		url:'sys/action.do',
+		url:'action.do',
 		queryParams:params,
 		ajax:false,
 		success:function(data){

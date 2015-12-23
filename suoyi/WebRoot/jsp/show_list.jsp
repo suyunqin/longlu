@@ -10,7 +10,7 @@
 <%@page import="java.lang.StringBuffer" %>
 <%@page import="com.suoyi.util.DateHandler" %>
 <%@page import="org.apache.commons.beanutils.PropertyUtils" %>
-<%@page import="com.suoyi.ui.qlist.SearchField"%>
+<%@page import="com.suoyi.ui.form.FormField"%>
 <%@page import="com.suoyi.ui.qlist.QueryList"%>
 <%@page import="com.suoyi.ui.PageModel"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
@@ -21,96 +21,35 @@
 <title></title>
 </head>
 <%
-String page_id = String.valueOf(System.currentTimeMillis());
-Map datas = (Map) request.getAttribute("datas");
-Map map_1 =  (Map)request.getAttribute("map_1");
-PageBean pageB = (PageBean)map_1.get("pageB");
+	String target = (String) request.getParameter("target");
+	String page_id = String.valueOf(System.currentTimeMillis());
+	Map datas = (Map) request.getAttribute("datas");
+	Map map_1 =  (Map)request.getAttribute("map_1");
+	PageBean pageB = (PageBean)map_1.get("pageB");
 %>
 <body id="body_<%=page_id%>">
 	<%
-		String target = (String) request.getParameter("target");
-		PageModel target_page = ContextManager.getPageByTarget(target);
-		if(target_page==null){
+			PageModel target_page = ContextManager.getPageByTarget(target);
+			if(target_page==null){
 	%>	
-		<h3 class="h3_notfound">404 Not Found - - - SUOYI APP EXECPTION</h3><br />
-		<font class="font_error_msg">模块异常:&nbsp;PageModel[-&nbsp;<font color="red" style="font-weight: bold;"><%=target %></font>&nbsp;-]&nbsp;未定义!</font>
+		<%-- <h3 class="h3_notfound">404 Not Found - - - SUOYI APP EXECPTION</h3><br />
+		<font class="font_error_msg">模块异常:&nbsp;PageModel[-&nbsp;<font color="red" style="font-weight: bold;"><%=target%></font>&nbsp;-]&nbsp;未定义!</font> --%>
+		<iframe src="jsp/nopage_error.jsp" scrolling="no" class="inc_iframe"></iframe>
 	<%
-			return;
-		}
-		QueryList ql = target_page.getQuerylist();
-		List<SearchField> sfs = ql.getSearch();
-		List<ContentTD> tds = ql.getContent();
-		Map search_map = (Map)request.getAttribute("search_map");
+				return;
+			}
+			QueryList ql = target_page.getQuerylist();
+			List<FormField> sfs = ql.getSearch_form().getFields();
+			List<ContentTD> tds = ql.getContent().getContent();
+			Map search_map = (Map)request.getAttribute("search_map");
 	%>
-	
-	<form action="sys/action.do" id="queryForm_<%=page_id%>">
-		<div class="div_search_form">
-			<p class="p_search_form_title">查&nbsp;询&nbsp;参&nbsp;数</p>
-			<input type="hidden" name="target" value="<%=search_map.get("target")%>"/>
-			<%-- <input type="hidden" name="curPage" value="<%=pageB==null?1:pageB.getCurPage()%>">
-			<input type="hidden" name="pageSize" value="<%=pageB==null?15:pageB.getPageSize()%>"> --%>
-			<%
-				for (int i = 0;i<sfs.size();i++) {
-					SearchField sf = sfs.get(i);
-					if("text".equals(sf.getType())){
-			%>
-						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label>
-						<input name="<%=sf.getField()%>" type="<%=sf.getType() %>" <%=sf.getIsRead()==null?"":"readonly class=\"readonlyInput\"" %> value="<%
-							Object value = search_map.get(sf.getField());
-							if(value!=null){out.print(value);}
-						%>" />&nbsp;
-			<%
-					}else if("date".equals(sf.getType())){
-			%>
-						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label>
-						<input name="<%=sf.getField()%>" class="easyui-datebox" data-options="editable:false<%=sf.getIsRead()==null?"":",\"readonly:true\"" %>" value="<%
-							Object value = search_map.get(sf.getField());
-							if(value!=null){out.print(value);}
-						%>"/>&nbsp;
-			<%
-					}else if("datetime".equals(sf.getType())){
-			%>
-						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label>
-						<input name="<%=sf.getField()%>" class="easyui-datetimebox" data-options="editable:false<%=sf.getIsRead()==null?"":",\"readonly:true\"" %>" value="<%
-							Object value = search_map.get(sf.getField());
-							if(value!=null){out.print(value);}
-						%>"/>&nbsp;
-			<%
-					}else if(sf.getType().startsWith("list")){
-			%>
-						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label> 
-						<select class="easyui-combobox" data-options="editable:false,panelHeight:null" name="<%=sf.getField()%>" >
-							<option>-全部-</option>
-							<%
-								String listid = sf.getType().split("_")[1];
-								List<Dict> dicts = ContextManager.getDictbyType(listid);
-								for(Dict dc:dicts){
-							%>
-							<option value="<%=dc.getSid()%>" <%
-									Object value = search_map.get(sf.getField());
-									if(value!=null)
-									if(value.equals(dc.getSid()+"")){
-										out.print("selected=\"selected\"");
-									}
-							%>><%=dc.getName() %></option>
-							<%
-								}
-							%>
-						</select>
-			<%
-					}
-						
-					if(i!=0&&((i+1)%4==0||i==3)){
-			%>		
-						<div style="height:5px;"></div>
-			<%		
-					}
-				}
-			%>
-			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doQuery(<%=page_id%>,1,15,<%=target%>)">&nbsp;查&nbsp;询&nbsp;</a>
-		</div>
-	</form>
-	<table id="table_data_<%=page_id %>" style="width: 95%;margin: 0px auto;" cellpadding="0" cellspacing="0">
+	<jsp:include page="form.jsp">
+		<jsp:param value="<%=target %>" name="target"/>
+		<jsp:param value="<%=page_id %>" name="page_id"/>
+		<jsp:param value="queryForm" name="action"/>
+	</jsp:include>
+	<%-- <iframe scrolling="no" class="inc_iframe" src="form.do?action=queryForm&target=<%=target%>&page_id=<%=page_id%>"></iframe> --%>
+	<table id="table_data_<%=page_id%>" style="width: 95%;margin: 0px auto;" cellpadding="0" cellspacing="0">
 		<thead>
 			<tr id="contentTitle">
 				<td class="td_th" style="width:30px;">序号</td>

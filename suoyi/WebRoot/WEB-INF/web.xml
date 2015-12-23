@@ -34,14 +34,14 @@
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 
-	<filter>
+	<!-- <filter>
 		<filter-name>islogin</filter-name>
 		<filter-class>com.suoyi.controller.filter.LoginFilter</filter-class>	
 	</filter>
 	<filter-mapping>
 		<filter-name>islogin</filter-name>
 		<url-pattern>/sys/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 	
 	
 	<filter>

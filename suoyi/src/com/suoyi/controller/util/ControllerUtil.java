@@ -40,13 +40,11 @@ public class ControllerUtil {
 			List list_1 = (List) data.get("rows");
 			JSONArray rows = new JSONArray();
 			PageModel pageModel = ContextManager.getPageByTarget((String) map_1.get("target"));
-			List<ContentTD> tds = pageModel.getQuerylist().getContent();
+			List<ContentTD> tds = pageModel.getQuerylist().getContent().getContent();
 			for (Object obj : list_1) {
 				JSONObject jobj = new JSONObject();
 				for (ContentTD td : tds) {
-					
 					jobj.put(td.getField(), PropertyUtils.getProperty(obj,td.getField()));
-					
 				}
 				rows.put(jobj);
 			}

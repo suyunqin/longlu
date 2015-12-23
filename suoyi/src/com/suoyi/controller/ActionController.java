@@ -20,7 +20,7 @@ import com.suoyi.ui.PageModel;
 @Controller
 public class ActionController {
 
-	@RequestMapping(value = "/sys/action.do")
+	@RequestMapping(value = "/action.do")
 	public ModelAndView doAction(HttpServletRequest request, HttpServletResponse response, Map model) {
 		try {
 			UserBean user = ContextManager.getCurUser(request);
@@ -67,11 +67,11 @@ public class ActionController {
 				model.put("map_1", map_1);
 				
 			}
-			return new ModelAndView("../jsp/show_list.jsp", model);
+			return new ModelAndView("jsp/show_list.jsp", model);
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.put("error_msg", e.toString());
-			return new ModelAndView("../jsp/error.jsp", model);
+			return new ModelAndView("jsp/error.jsp", model);
 		}
 
 	}

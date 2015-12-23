@@ -16,8 +16,8 @@ import com.suoyi.entity.sys.PageBean;
 import com.suoyi.myexceptions.LogicalException;
 import com.suoyi.service.dao.BaseService;
 import com.suoyi.sys.ContextManager;
+import com.suoyi.ui.form.FormField;
 import com.suoyi.ui.qlist.QueryList;
-import com.suoyi.ui.qlist.SearchField;
 import com.suoyi.util.DateHandler;
 import com.suoyi.util.SessionUtil;
 
@@ -159,9 +159,9 @@ public class BaseServiceImpl implements BaseService {
 	private StringBuffer getCond(Map map_1) {
 		StringBuffer sb = new StringBuffer();
 		String target = (String) map_1.get("target");
-		List<SearchField> sfs = ContextManager.getPageByTarget(target).getQuerylist().getSearch();
+		List<FormField> sfs = ContextManager.getPageByTarget(target).getQuerylist().getSearch_form().getFields();
 
-		for (SearchField sf : sfs) {
+		for (FormField sf : sfs) {
 			String val = (String) map_1.get(sf.getField());
 			if (StringUtils.isNotBlank(val)) {
 				if (sb.length() == 0){

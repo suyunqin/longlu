@@ -6,7 +6,7 @@
 	</menu>
 	<menu id="2" name="请假流程">
 		<btn id="3" name="新增请假条" href="jsp/addLeavePage.jsp?action=add&amp;hibean=Leave&amp;svc=LeaveSvc" />
-		<btn id="4" name="查看请假条" href="sys/action.do?target=1" />
+		<btn id="4" name="查看请假条" href="action.do?target=1" />
 	</menu>
 	<menu id="3" name="日程管理">
 		<btn id="5" name="添加日程" href="" />

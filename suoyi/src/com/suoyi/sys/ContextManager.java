@@ -19,9 +19,9 @@ import com.suoyi.entity.UserBean;
 import com.suoyi.ui.Button;
 import com.suoyi.ui.Menu;
 import com.suoyi.ui.PageModel;
+import com.suoyi.ui.form.FormField;
 import com.suoyi.ui.qlist.ContentTD;
 import com.suoyi.ui.qlist.QueryList;
-import com.suoyi.ui.qlist.SearchField;
 import com.suoyi.util.SessionUtil;
 
 @SuppressWarnings("unchecked")
@@ -111,22 +111,22 @@ public class ContextManager {
 				for (Element e_target : es_target) {
 					ql.setHibean(e_target.attributeValue("hibean"));
 					ql.setSvc(e_target.attributeValue("svc"));
-
+					
 					List<Element> e_t_cs = e_target.elements();
 
 					for (Element etc : e_t_cs) {
 						if (etc.getName().equals("searchForm")) {
-
+							
 							List<Element> e_sfs = etc.elements();
 							for (Element esf : e_sfs) {
-								SearchField sf = new SearchField();
+								FormField sf = new FormField();
 								sf.setId(esf.attributeValue("id"));
 								sf.setField(esf.attributeValue("field"));
 								sf.setIsRead(esf.attributeValue("isread"));
 								sf.setLabel(esf.attributeValue("label"));
 								sf.setOp(esf.attributeValue("op"));
 								sf.setType(esf.attributeValue("type"));
-								ql.getSearch().add(sf);
+								ql.getSearch_form().getFields().add(sf);
 							}
 
 						} else if (etc.getName().equals("content")) {
@@ -142,7 +142,7 @@ public class ContextManager {
 								td.setName(etd.attributeValue("name"));
 								td.setRem(etd.attributeValue("rem"));
 								td.setType(etd.attributeValue("type"));
-								ql.getContent().add(td);
+								ql.getContent().getContent().add(td);
 							}
 
 						}

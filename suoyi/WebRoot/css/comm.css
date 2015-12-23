@@ -99,3 +99,8 @@ input {
 .div_pagebar a{
 	font-size: 10px;
 }
+.inc_iframe{
+	border: 0px;
+	width: 100%;
+	margin: 0px auto;
+}

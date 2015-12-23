@@ -19,7 +19,7 @@ import com.suoyi.sys.ContextManager;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class FormController {
 
-	@RequestMapping(value = "/sys/form.do")
+	@RequestMapping(value = "/form.do")
 	public String doForm(HttpServletRequest request, HttpServletResponse response, Model model) {
 		try {
 			UserBean user = ContextManager.getCurUser(request);
@@ -40,15 +40,18 @@ public class FormController {
 			}else if("edit".equals(action)){
 				service.edit(map_1);
 				ControllerUtil.writeResult(response, "²Ù×÷³É¹¦!");
+			}else if("queryForm".equals(action)){
+				
 			}
-
+			
+			return "jsp/form.jsp";
 		} catch (Exception e) {
 			model.addAttribute("error_msg", e.getLocalizedMessage());
 			e.printStackTrace();
 			return "jsp/error.jsp";
 		}
 
-		return "";
+		
 	}
 
 }
