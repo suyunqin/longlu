@@ -4,12 +4,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Form {
+	private String id;
 	private List<FormField> fields = new ArrayList<FormField>();
 	private String hibean;
 	private String svc;
 	private String hiddefbtn;
-	
-	
+	private String btnlabel;
+
+	public String getBtnlabel() {
+		return btnlabel;
+	}
+
+	public void setBtnlabel(String btnlabel) {
+		this.btnlabel = btnlabel;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public List<FormField> getFields() {
 		return fields;
 	}
@@ -42,5 +59,4 @@ public class Form {
 		this.hiddefbtn = hiddefbtn;
 	}
 
-	
 }

@@ -37,7 +37,7 @@
 				</tr>
 				<tr>
 					<td class="td_label">请假缘由:</td>
-					<td class="td_field"><textarea rows="3" cols="21" name="reason" /></td>
+					<td class="td_field"><textarea rows="3" cols="21" name="reason" ></textarea></td>
 				</tr>
 			</tbody>
 			<tfoot>

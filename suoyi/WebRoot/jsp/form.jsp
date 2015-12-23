@@ -1,3 +1,4 @@
+<%@page import="com.suoyi.ui.form.Form"%>
 <%@page import="java.util.List"%>
 <%@page import="com.suoyi.ui.qlist.QueryList"%>
 <%@page import="java.util.HashMap"%>
@@ -20,6 +21,8 @@
 		page_id = System.currentTimeMillis()+"";
 	}
 	String action = (String)request.getParameter("action");
+	String formid = null;
+	boolean isQueryForm = false;
 %>
 <body>
 	<%
@@ -30,37 +33,51 @@
 		<iframe src="jsp/nopage_error.jsp"></iframe>
 	<%
 	}
-	
-	QueryList ql = target_page.getQuerylist();
-	List<FormField> sfs = ql.getSearch_form().getFields();
-	Map search_map = (Map)request.getAttribute("search_map");
+	Form form = null;
+	Map valueMap = null;
+	if(target_page.getType().equals("ql")){
+		QueryList ql = target_page.getQuerylist();
+		form = ql.getSearch_form();
+		isQueryForm = true;
+		valueMap = (Map)request.getAttribute("search_map");
+	}else if(target_page.getType().equals("form")){
+		formid = (String)request.getParameter("formid");
+		form = target_page.getFormById(formid);
+		valueMap = (Map)request.getAttribute("valueMap");
+	}
+	 
 	%>
-	<form action="action.do" id="queryForm_<%=page_id%>">
-		<div class="div_search_form">
+	<form action="action.do" id="form_<%=page_id%>">
+		<div class="div_form">
+			
 			<%
-				if("queryForm".equals(action)){
+				if(isQueryForm){
 			%>
 			<p class="p_search_form_title">查&nbsp;询&nbsp;参&nbsp;数</p>
+			<%
+				}else{
+			%>	
+					<div>&nbsp;</div>
 			<%
 				}
 			 %>
 			<input type="hidden" name="target" value="<%=target%>"/>
 			<%
-				for (int i = 0;i<sfs.size();i++) {
-						FormField sf = sfs.get(i);
+				for (int i = 0;i<form.getFields().size();i++) {
+						FormField sf = form.getFields().get(i);
 						if("text".equals(sf.getType())){
 			%>
 						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label>
 						<input name="<%=sf.getField()%>" type="<%=sf.getType() %>" <%=sf.getIsRead()==null?"":"readonly class=\"readonlyInput\"" %> value="<%
-							Object value = search_map.get(sf.getField());
+							Object value = valueMap.get(sf.getField());
 							if(value!=null){out.print(value);}
 						%>" />&nbsp;
 			<%
 					}else if("date".equals(sf.getType())){
 			%>
 						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label>
-						<input name="<%=sf.getField()%>" id="input_<%=page_id %>" class="easyui-datebox" data-options="editable:false<%=sf.getIsRead()==null?"":",\"readonly:true\"" %>" value="<%
-							Object value = search_map.get(sf.getField());
+						<input name="<%=sf.getField()%>" id="input_<%=sf.getField() %>_<%=page_id %>" class="easyui-datebox" data-options="editable:false<%=sf.getIsRead()==null?"":",\"readonly:true\"" %>" value="<%
+							Object value = valueMap.get(sf.getField());
 							if(value!=null){out.print(value);}
 						%>"/> <img alt="清空" onclick="doClear('<%=sf.getField() %>','<%=page_id%>')" src="images/clear_16.png" align="middle">&nbsp;
 			<%
@@ -68,7 +85,7 @@
 			%>
 						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label>
 						<input name="<%=sf.getField()%>" id="input_<%=sf.getField() %>_<%=page_id %>" class="easyui-datetimebox" data-options="editable:false<%=sf.getIsRead()==null?"":",\"readonly:true\"" %>" value="<%
-							Object value = search_map.get(sf.getField());
+							Object value = valueMap.get(sf.getField());
 							if(value!=null){out.print(value);}
 						%>"/> <img alt="清空" onclick="doClear('<%=sf.getField() %>','<%=page_id%>')" src="images/clear_16.png" align="middle">&nbsp;
 			<%
@@ -83,7 +100,7 @@
 								for(Dict dc:dicts){
 							%>
 							<option value="<%=dc.getSid()%>" <%
-									Object value = search_map.get(sf.getField());
+									Object value = valueMap.get(sf.getField());
 									if(value!=null)
 									if(value.equals(dc.getSid()+"")){
 										out.print("selected=\"selected\"");
@@ -94,16 +111,32 @@
 							%>
 						</select>
 			<%
+					}else if(sf.getType().equals("textarea")){
+			%>
+						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label>
+						<textarea name="<%=sf.getField()%>" rows="3" cols="21" <%=sf.getIsRead()==null?"":"readonly class=\"readonlyInput\"" %> ><%
+							Object value = valueMap.get(sf.getField());
+							if(value!=null){out.print(value);}
+						%></textarea>&nbsp;
+			<%			
 					}
 						
-					if(i!=0&&((i+1)%4==0||i==3)){
+					if(i!=0&&((i+1)%3==0||i==3)){
 			%>		
 						<div style="height:5px;"></div>
 			<%		
 					}
 				}
+				if(isQueryForm){
 			%>
-			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doQuery(<%=page_id%>,1,15,<%=target%>)">&nbsp;查&nbsp;询&nbsp;</a>
+					<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doQuery(<%=page_id%>,1,15,<%=target%>)">&nbsp;查&nbsp;询&nbsp;</a>
+			<%
+				}else{
+			%>
+					<div class="div_formbtn_con"><a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="doSubmitForm(<%=page_id%>,<%=target%>,<%=formid%>)"><%=request.getAttribute("btnlabel") %></a></div>
+			<%
+				}
+			%>
 		</div>
 	</form>
 </body>

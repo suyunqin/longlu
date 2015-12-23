@@ -123,8 +123,8 @@ public class BaseServiceImpl implements BaseService {
 		Map data = new HashMap();
 
 		QueryList ql = ContextManager.getPageByTarget(map_1.get("target").toString()).getQuerylist();
-
-		String beanName = ql.getHibean();
+		
+		String beanName = ql.getSearch_form().getHibean();
 
 		if (StringUtils.isBlank(beanName)) {
 			throw new LogicalException("no bean find ");

@@ -25,7 +25,7 @@ function doQuery(page_id,curPage,pageSize,target) {
 	if(target!=''){
 		params.target = target;
 	}
-	$("#queryForm_"+page_id).form('submit',{
+	$("#form_"+page_id).form('submit',{
 		url:'action.do',
 		queryParams:params,
 		ajax:false,
@@ -47,5 +47,19 @@ function jumpPage(page_id,pageSize,target) {
 }
 
 function doClear(pageid,name) {
-	$("#input_"+name+"_"+pageid).datebox('setValue', '2012-1-1');
+	$("#input_"+pageid+"_"+name).datebox('reset');
+}
+
+function doSubmitForm(pageid,target,formid) {
+	$("#form_"+page_id).form('submit',{
+		url:'action.do',
+		success:function(data){
+			$('#div_tabs_index').tabs('update', {
+				tab: tab,
+				options: {
+					content: data
+				}
+			});
+		}
+	});
 }

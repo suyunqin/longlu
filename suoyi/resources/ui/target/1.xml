@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <target>
-	<queryList svc="LeaveSvc" hibean="Leave">
-		<searchForm>
+	<queryList>
+		<searchForm svc="LeaveSvc" hibean="Leave">
 			<field id="1" label="申请人" field="creater.name" type="text" />
-			<field id="2" label="开始时间" field="starttime" type="datetime" op="&gt;" />
+			<field id="2" label="开始时间" field="starttime" type="date" op="&gt;" />
 			<field id="3" label="结束时间" field="endtime" type="date" op="&lt;"/>
 			<field id="4" label="状态" field="state" type="list_1"/>
 		</searchForm>
@@ -17,6 +17,10 @@
 			<td id="6" name="处理时间" field="optime" type="date"/>
 			<td id="7" name="审批结果" field="opresult" type="text" />
 			<td id="8" name="审批意见" field="opdes" type="text"/>
+			<td id="9" name="操作" type="btn">
+				<btn id="1" text="修改" href="form.do?target=2&amp;formid=1&amp;pk={id}" />
+				<btn id="2" text="修改" href="form.do?target=2&amp;formid=1&amp;pk={id}" />
+			</td>
 		</content>
 	</queryList>
 </target>

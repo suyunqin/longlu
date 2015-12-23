@@ -19,9 +19,12 @@ import com.suoyi.entity.UserBean;
 import com.suoyi.ui.Button;
 import com.suoyi.ui.Menu;
 import com.suoyi.ui.PageModel;
+import com.suoyi.ui.form.Form;
 import com.suoyi.ui.form.FormField;
+import com.suoyi.ui.qlist.Content;
 import com.suoyi.ui.qlist.ContentTD;
 import com.suoyi.ui.qlist.QueryList;
+import com.suoyi.ui.qlist.TdBtn;
 import com.suoyi.util.SessionUtil;
 
 @SuppressWarnings("unchecked")
@@ -33,8 +36,8 @@ public class ContextManager {
 	private static Map<String, UserBean> users = new HashMap<String, UserBean>();
 	public static List<Menu> menu = new ArrayList<Menu>();
 	public static Map<String, PageModel> pages = new HashMap<String, PageModel>();
-	public static Map<Integer,List<Dict>> dict = new HashMap<Integer,List<Dict>>();
-	
+	public static Map<Integer, List<Dict>> dict = new HashMap<Integer, List<Dict>>();
+
 	public static void init() {
 		initMenu();
 		initPage();
@@ -84,6 +87,10 @@ public class ContextManager {
 		}
 	}
 
+	public static void main(String[] args){
+		initPage();
+	}
+	
 	/**
 	 * 初始化系统页面
 	 */
@@ -102,87 +109,146 @@ public class ContextManager {
 				PageModel page = new PageModel();
 				page.setId(ele.attributeValue("id"));
 				page.setType(ele.attributeValue("type"));
-				QueryList ql = new QueryList();
+				
 
+				// 读取页面元素配置
 				String target = uilocation + "/target/" + page.getId() + ".xml";
-				Document doc_target = reader.read(ContextManager.class.getResourceAsStream(target));
+				Document doc_target = reader.read(ContextManager.class
+						.getResourceAsStream(target));
+				// 页面元素根节点 <target>
 				Element root_target = doc_target.getRootElement();
+
 				List<Element> es_target = root_target.elements();
 				for (Element e_target : es_target) {
-					ql.setHibean(e_target.attributeValue("hibean"));
-					ql.setSvc(e_target.attributeValue("svc"));
-					
-					List<Element> e_t_cs = e_target.elements();
-
-					for (Element etc : e_t_cs) {
-						if (etc.getName().equals("searchForm")) {
-							
-							List<Element> e_sfs = etc.elements();
-							for (Element esf : e_sfs) {
-								FormField sf = new FormField();
-								sf.setId(esf.attributeValue("id"));
-								sf.setField(esf.attributeValue("field"));
-								sf.setIsRead(esf.attributeValue("isread"));
-								sf.setLabel(esf.attributeValue("label"));
-								sf.setOp(esf.attributeValue("op"));
-								sf.setType(esf.attributeValue("type"));
-								ql.getSearch_form().getFields().add(sf);
+					//判断当前节点类型
+					if ("form".equals(e_target.getName())) {
+						Form form = getForm(e_target);
+						page.putForm(form);
+					} else if ("queryList".equals(e_target.getName())) {
+						QueryList ql = new QueryList();
+						List<Element> e_t_cs = e_target.elements();
+						for (Element etc : e_t_cs) {
+							if (etc.getName().equals("searchForm")) {
+								Form search_form = getForm(etc);
+								ql.setSearch_form(search_form);
+							} else if (etc.getName().equals("content")) {
+								Content content = getContent(etc);
+								ql.setContent(content);
 							}
-
-						} else if (etc.getName().equals("content")) {
-
-							List<Element> e_ctd = etc.elements();
-							for (Element etd : e_ctd) {
-								ContentTD td = new ContentTD();
-								td.setColor(etd.attributeValue("color"));
-								td.setField(etd.attributeValue("field"));
-								td.setHref(etd.attributeValue("href"));
-								td.setId(etd.attributeValue("id"));
-								td.setIsHide(etd.attributeValue("ishide"));
-								td.setName(etd.attributeValue("name"));
-								td.setRem(etd.attributeValue("rem"));
-								td.setType(etd.attributeValue("type"));
-								ql.getContent().getContent().add(td);
-							}
-
 						}
+						page.setQuerylist(ql);
 					}
-
 				}
-				page.setQuerylist(ql);
 				pages.put(page.getId(), page);
 			}
 			System.out.println("系统页面初始化完成...System page Initialized sucess");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+	}
+	
+	/**
+	 * 根据节点属性获取数据列表正文
+	 * @param ele
+	 * @return
+	 */
+	private static Content getContent(Element ele){
+		Content content = new Content();
+		List<Element> e_ctd = ele.elements();
+		for (Element etd : e_ctd) {
+			ContentTD td = new ContentTD();
+			td.setColor(etd.attributeValue("color"));
+			td.setField(etd.attributeValue("field"));
+			td.setHref(etd.attributeValue("href"));
+			td.setId(etd.attributeValue("id"));
+			td.setIsHide(etd.attributeValue("ishide"));
+			td.setName(etd.attributeValue("name"));
+			td.setRem(etd.attributeValue("rem"));
+			td.setType(etd.attributeValue("type"));
+			
+			if("btn".equals(td.getType())){
+				td.setBtns(getTdBtns(etd));
+			}
+			content.getContent().add(td);
+		}
+		return content;
+	}
+	
+	/**
+	 * 获取数据表格的小按钮
+	 * @param ele
+	 * @return
+	 */
+	public static List<TdBtn> getTdBtns(Element ele){
+		List<TdBtn> btns = new ArrayList<TdBtn>();
+		List<Element> ele_btns = ele.elements();
+		for(Element e:ele_btns){
+			TdBtn btn = new TdBtn();
+			btn.setId(e.attributeValue("id"));
+			btn.setText(e.attributeValue("text"));
+			btn.setHref(e.attributeValue("href"));
+			btn.setJs(e.attributeValue("js"));
+			btns.add(btn);
+		}
+		return btns;
+	}
+	
+	/**
+	 * 根据节点属性 获取form
+	 * @param forme
+	 * @return
+	 */
+	private static Form getForm(Element ele){
+		Form form = new Form();
+		form.setId(ele.attributeValue("id"));
+		form.setHibean(ele.attributeValue("hibean"));
+		form.setSvc(ele.attributeValue("svc"));
+		form.setBtnlabel(ele.attributeValue("btnlabel"));
+		
+		List<Element> e_sfs = ele.elements();
+		for (Element esf : e_sfs) {
+			FormField sf = new FormField();
+			sf.setId(esf.attributeValue("id"));
+			sf.setField(esf.attributeValue("field"));
+			sf.setIsRead(esf.attributeValue("isread"));
+			sf.setLabel(esf.attributeValue("label"));
+			sf.setOp(esf.attributeValue("op"));
+			sf.setType(esf.attributeValue("type"));
+			form.getFields().add(sf);
+		}
+		return form;
 	}
 
 	/**
 	 * 初始化系统字典
 	 */
 	private static void initDict() {
-		try{
-			List<DictMap> sys_dict_map = SessionUtil.getSession().createQuery("From DictMap").list();
-			for(DictMap dcm:sys_dict_map){
-				List<Dict> dicts = SessionUtil.getSession().createQuery("From Dict where typeid = "+dcm.getTypeid()).list();
+		try {
+			List<DictMap> sys_dict_map = SessionUtil.getSession()
+					.createQuery("From DictMap").list();
+			for (DictMap dcm : sys_dict_map) {
+				List<Dict> dicts = SessionUtil
+						.getSession()
+						.createQuery(
+								"From Dict where typeid = " + dcm.getTypeid())
+						.list();
 				dict.put(Integer.valueOf(dcm.getTypeid()), dicts);
 			}
 			System.out.println("系统字典初始化完成...System Dict Initialized sucess");
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public static List<Dict> getDictbyType(String typeid){
+
+	public static List<Dict> getDictbyType(String typeid) {
 		List<Dict> list = dict.get(Integer.parseInt(typeid));
 		return list;
 	}
-	
-	public static PageModel getPageByTarget(String target){
+
+	public static PageModel getPageByTarget(String target) {
 		return pages.get(target);
 	}
+
 	/**
 	 * 获取当前登录的用户
 	 * 

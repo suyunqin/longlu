@@ -1,3 +1,4 @@
+<%@page import="com.suoyi.ui.qlist.TdBtn"%>
 <%@page import="com.suoyi.entity.sys.PageBean"%>
 <%@page import="com.suoyi.util.DateHandler"%>
 <%@page import="com.suoyi.sys.ContextManager"%>
@@ -73,16 +74,33 @@
 				<td class="td_data_grid"><%=i+1 %></td>
 			<%
 					for (ContentTD td : tds) {
-						Object obj_td = PropertyUtils.getProperty(obj,td.getField());
 						StringBuffer str_td = new StringBuffer("<td class=\"td_data_grid\">");
-						
-						if(obj_td!=null){
-							if(td.getType().equals("date")){
-								str_td.append(DateHandler.sdf.format((Date)obj_td));
-							}else if(td.getType().equals("datetime")){
-								str_td.append(DateHandler.sdf_noss.format((Date)obj_td));
-							}else{
-								str_td.append(obj_td);
+						if(td.getType().equals("btn")){
+							StringBuffer sb_btn = new StringBuffer();
+							for(TdBtn btn:td.getBtns()){
+								if(sb_btn.length()!=0)sb_btn.append(" ");
+								 sb_btn.append("<a href=\"");
+								if(btn.getHref()!=null){
+								sb_btn.append(btn.getHref()).append("\"");
+								}else{
+									sb_btn.append("javascript:void(0);\"");
+								}
+								sb_btn.append(" class=\"td_btn\"");
+								sb_btn.append(">").append(btn.getText());
+								sb_btn.append("</a>");
+							}
+							str_td.append(sb_btn);
+						}else{
+							Object obj_td = PropertyUtils.getProperty(obj,td.getField());
+							
+							if(obj_td!=null){
+								if(td.getType().equals("date")){
+									str_td.append(DateHandler.sdf.format((Date)obj_td));
+								}else if(td.getType().equals("datetime")){
+									str_td.append(DateHandler.sdf_noss.format((Date)obj_td));
+								}else{
+									str_td.append(obj_td);
+								}
 							}
 						}
 						str_td.append("</td>");

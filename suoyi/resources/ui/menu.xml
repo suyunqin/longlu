@@ -5,7 +5,7 @@
 		<btn id="2" name="查看报销单" href="jsp/show_list.jsp?target=2" />
 	</menu>
 	<menu id="2" name="请假流程">
-		<btn id="3" name="新增请假条" href="jsp/addLeavePage.jsp?action=add&amp;hibean=Leave&amp;svc=LeaveSvc" />
+		<btn id="3" name="新增请假条" href="form.do?action=add&amp;target=2&amp;formid=1" />
 		<btn id="4" name="查看请假条" href="action.do?target=1" />
 	</menu>
 	<menu id="3" name="日程管理">

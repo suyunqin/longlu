@@ -30,7 +30,7 @@ public class ActionController {
 			PageModel pageModel = ContextManager.getPageByTarget(target);
 
 			String action = (String) map_1.get("action");
-			String svc = pageModel.getQuerylist().getSvc();
+			String svc = pageModel.getQuerylist().getSearch_form().getSvc();
 
 			if (svc == null || svc.length() == 0) {
 				svc = "BaseServiceImpl";

@@ -1,5 +1,8 @@
 package com.suoyi.ui.qlist;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ContentTD {
 	private String id;
 	private String name;
@@ -9,6 +12,7 @@ public class ContentTD {
 	private String rem;
 	private String color;
 	private String type = "text";
+	private List<TdBtn> btns = new ArrayList<TdBtn>();
 
 	public String getId() {
 		return id;
@@ -72,6 +76,14 @@ public class ContentTD {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public List<TdBtn> getBtns() {
+		return btns;
+	}
+
+	public void setBtns(List<TdBtn> btns) {
+		this.btns = btns;
 	}
 
 }
