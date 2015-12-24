@@ -115,6 +115,7 @@ public class ContextManager {
 				String target = uilocation + "/target/" + page.getId() + ".xml";
 				Document doc_target = reader.read(ContextManager.class
 						.getResourceAsStream(target));
+				if(doc_target==null)continue;
 				// 页面元素根节点 <target>
 				Element root_target = doc_target.getRootElement();
 

@@ -107,7 +107,31 @@ input {
 
 .div_formbtn_con{
 	text-align: center;
+	padding: 5px 0px 5px 0px;
 }
 .td_data_grid a{
 	font-size: 8px;
+}
+
+.table_form{
+	table-layout: fixed;
+}
+.table_form tr td{
+	padding: 0px;
+	line-height: 0px;
+}
+.img_clearbtn{
+	border: 1px #CCC solid;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+.img_clearbtn:hover{
+	padding: 0px;
+	margin: 0px;
+	border-color:red; 
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+textarea{
+	resize: none;
 }

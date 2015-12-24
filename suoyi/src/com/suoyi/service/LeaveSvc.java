@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.suoyi.entity.Emp;
 import com.suoyi.entity.Leave;
 import com.suoyi.entity.UserBean;
 import com.suoyi.util.SessionUtil;
@@ -30,4 +31,15 @@ public class LeaveSvc extends BaseServiceImpl {
     public Map getData(Map map_1) throws Exception {
         return super.getData(map_1);
     }
+    
+    @Override
+    public void preAdd(Map map_1) throws Exception {
+    	// TODO Auto-generated method stub
+    	super.preAdd(map_1);
+    	UserBean user = (UserBean) map_1.get("user");
+    	Leave leave = (Leave) map_1.get("bean");
+    	Emp emp = (Emp) SessionUtil.getSession().get(Emp.class, user.getId());
+    	leave.setCreater(emp);
+    	leave.setCreateid(new Long(user.getId()).intValue());
+    }    			
 }

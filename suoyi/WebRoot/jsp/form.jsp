@@ -62,36 +62,44 @@
 				}
 			 %>
 			<input type="hidden" name="target" value="<%=target%>"/>
+			<table class="table_form">
+				<tr>
 			<%
 				for (int i = 0;i<form.getFields().size();i++) {
 						FormField sf = form.getFields().get(i);
 						if("text".equals(sf.getType())){
 			%>
-						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label>
+						<td>
+						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label></td><td>
 						<input name="<%=sf.getField()%>" type="<%=sf.getType() %>" <%=sf.getIsRead()==null?"":"readonly class=\"readonlyInput\"" %> value="<%
 							Object value = valueMap.get(sf.getField());
 							if(value!=null){out.print(value);}
-						%>" />&nbsp;
+						%>" />&nbsp;</td>
 			<%
 					}else if("date".equals(sf.getType())){
 			%>
-						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label>
+						<td>
+						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label></td><td>
 						<input name="<%=sf.getField()%>" id="input_<%=sf.getField() %>_<%=page_id %>" class="easyui-datebox" data-options="editable:false<%=sf.getIsRead()==null?"":",\"readonly:true\"" %>" value="<%
 							Object value = valueMap.get(sf.getField());
 							if(value!=null){out.print(value);}
-						%>"/> <img alt="清空" onclick="doClear('<%=sf.getField() %>','<%=page_id%>')" src="images/clear_16.png" align="middle">&nbsp;
+						%>"/> <img class="img_clearbtn" alt="清空" onclick="doClear('<%=sf.getField() %>','<%=page_id%>')" src="images/clear_16.png" align="middle">&nbsp;
+						</td>
 			<%
 					}else if("datetime".equals(sf.getType())){
 			%>
-						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label>
+						<td>
+						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label></td><td>
 						<input name="<%=sf.getField()%>" id="input_<%=sf.getField() %>_<%=page_id %>" class="easyui-datetimebox" data-options="editable:false<%=sf.getIsRead()==null?"":",\"readonly:true\"" %>" value="<%
 							Object value = valueMap.get(sf.getField());
 							if(value!=null){out.print(value);}
-						%>"/> <img alt="清空" onclick="doClear('<%=sf.getField() %>','<%=page_id%>')" src="images/clear_16.png" align="middle">&nbsp;
+						%>"/> <img class="img_clearbtn" alt="清空" onclick="doClear('<%=sf.getField() %>','<%=page_id%>')" src="images/clear_16.png" align="middle">&nbsp;
+						</td>
 			<%
 					}else if(sf.getType().startsWith("list")){
 			%>
-						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label> 
+						<td>
+						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label> </td><td>
 						<select class="easyui-combobox" data-options="editable:false,panelHeight:null" name="<%=sf.getField()%>" >
 							<option>-全部-</option>
 							<%
@@ -109,30 +117,40 @@
 							<%
 								}
 							%>
-						</select>
+						</select></td>
 			<%
 					}else if(sf.getType().equals("textarea")){
 			%>
-						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label>
+						<td><label class="textarea_label" for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label></td>
+						<td>
 						<textarea name="<%=sf.getField()%>" rows="3" cols="21" <%=sf.getIsRead()==null?"":"readonly class=\"readonlyInput\"" %> ><%
 							Object value = valueMap.get(sf.getField());
 							if(value!=null){out.print(value);}
-						%></textarea>&nbsp;
+					%></textarea>&nbsp;</td>
+			<%			
+					}else if(sf.getType().equals("hidden")){
+			%>
+						<input name="<%=sf.getField()%>" type="hidden" <%=sf.getIsRead()==null?"":"readonly class=\"readonlyInput\"" %> value="<%
+							Object value = valueMap.get(sf.getField());
+							if(value!=null){out.print(value);}
+						%>" />
 			<%			
 					}
 						
-					if(i!=0&&((i+1)%3==0||i==3)){
+					if(i!=0&&((i+1)%4==0||i==3)){
 			%>		
-						<div style="height:5px;"></div>
+						<!-- <div style="height:5px;"></div> --></tr>
 			<%		
 					}
 				}
 				if(isQueryForm){
 			%>
-					<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doQuery(<%=page_id%>,1,15,<%=target%>)">&nbsp;查&nbsp;询&nbsp;</a>
+				</table>
+					<div class="div_formbtn_con"><a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doQuery(<%=page_id%>,1,15,<%=target%>)">&nbsp;查&nbsp;询&nbsp;</a></div>
 			<%
 				}else{
 			%>
+				</table>
 					<div class="div_formbtn_con"><a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="doSubmitForm(<%=page_id%>,<%=target%>,<%=formid%>)"><%=request.getAttribute("btnlabel") %></a></div>
 			<%
 				}

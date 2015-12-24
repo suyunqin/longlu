@@ -104,6 +104,7 @@ public class FormController {
 			}
 			map_1.put("session", request.getSession());
 			map_1.put("req", request);
+			map_1.put("bean", bean);
 			BaseService service = (BaseService) ServiceUtil.getBean(svc);
 
 			if ("add".equals(action)) {
