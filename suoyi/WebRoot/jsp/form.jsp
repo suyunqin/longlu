@@ -21,6 +21,9 @@
 		page_id = System.currentTimeMillis()+"";
 	}
 	String action = (String)request.getParameter("action");
+	if(action==null){
+		action = (String)request.getAttribute("action");
+	}
 	String formid = null;
 	boolean isQueryForm = false;
 %>
@@ -35,6 +38,7 @@
 	}
 	Form form = null;
 	Map valueMap = null;
+	
 	if(target_page.getType().equals("ql")){
 		QueryList ql = target_page.getQuerylist();
 		form = ql.getSearch_form();
@@ -45,11 +49,10 @@
 		form = target_page.getFormById(formid);
 		valueMap = (Map)request.getAttribute("valueMap");
 	}
-	 
+	String dialogid = (String)valueMap.get("dialogid");
 	%>
 	<form action="action.do" id="form_<%=page_id%>">
 		<div class="div_form">
-			
 			<%
 				if(isQueryForm){
 			%>
@@ -58,6 +61,10 @@
 				}else{
 			%>	
 					<div>&nbsp;</div>
+					<input type="hidden" name="formid" value="<%=form.getId() %>"/>
+					<input type="hidden" name="dialogid" value="<%=dialogid==null?"":dialogid%>"/>
+					<input type="hidden" name="action" value="<%=action %>"/>
+					<input type="hidden" name="pk" value="<%=request.getAttribute("pk") %>"/>
 			<%
 				}
 			 %>
@@ -100,8 +107,8 @@
 			%>
 						<td>
 						<label for="<%=sf.getField()%>"><%=sf.getLabel() %>：</label> </td><td>
-						<select class="easyui-combobox" data-options="editable:false,panelHeight:null" name="<%=sf.getField()%>" >
-							<option>-全部-</option>
+						<select class="select_combobox" name="<%=sf.getField()%>" >
+							<option value="">-全部-</option>
 							<%
 								String listid = sf.getType().split("_")[1];
 								List<Dict> dicts = ContextManager.getDictbyType(listid);

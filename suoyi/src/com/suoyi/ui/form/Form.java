@@ -10,6 +10,24 @@ public class Form {
 	private String svc;
 	private String hiddefbtn;
 	private String btnlabel;
+	private String defcon;
+	private String order;
+
+	public String getDefcon() {
+		return defcon;
+	}
+
+	public void setDefcon(String defcon) {
+		this.defcon = defcon;
+	}
+
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
+	}
 
 	public String getBtnlabel() {
 		return btnlabel;

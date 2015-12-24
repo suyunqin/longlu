@@ -1,3 +1,4 @@
+<%@page import="com.suoyi.util.ReplaceParam"%>
 <%@page import="com.suoyi.ui.qlist.TdBtn"%>
 <%@page import="com.suoyi.entity.sys.PageBean"%>
 <%@page import="com.suoyi.util.DateHandler"%>
@@ -14,6 +15,7 @@
 <%@page import="com.suoyi.ui.form.FormField"%>
 <%@page import="com.suoyi.ui.qlist.QueryList"%>
 <%@page import="com.suoyi.ui.PageModel"%>
+<%@page import="org.apache.commons.beanutils.NestedNullException" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -79,25 +81,33 @@
 							StringBuffer sb_btn = new StringBuffer();
 							for(TdBtn btn:td.getBtns()){
 								if(sb_btn.length()!=0)sb_btn.append(" ");
-								 sb_btn.append("<a href=\"");
+								sb_btn.append("<a href=\"javascropt:void(0);\"").append(" onclick=\"doOpenWindow('");
+								String href = null;
 								if(btn.getHref()!=null){
-								sb_btn.append(btn.getHref()).append("\"");
-								}else{
-									sb_btn.append("javascript:void(0);\"");
+									href = ReplaceParam.replaceHrefByBean(btn.getHref(), obj);
 								}
-								sb_btn.append(" class=\"td_btn\"");
-								sb_btn.append(">").append(btn.getText());
+								if(href!=null){
+									sb_btn.append(href);
+								}
+								sb_btn.append("','").append(new Date().getTime());
+								sb_btn.append("')\">").append(btn.getText());
 								sb_btn.append("</a>");
 							}
 							str_td.append(sb_btn);
 						}else{
-							Object obj_td = PropertyUtils.getProperty(obj,td.getField());
+							Object obj_td = null;
+							try{
+								obj_td = PropertyUtils.getProperty(obj,td.getField());
+							}catch(NestedNullException e){
+							}
 							
 							if(obj_td!=null){
 								if(td.getType().equals("date")){
 									str_td.append(DateHandler.sdf.format((Date)obj_td));
 								}else if(td.getType().equals("datetime")){
 									str_td.append(DateHandler.sdf_noss.format((Date)obj_td));
+								}else if(td.getType().startsWith("list_")){
+									str_td.append(ContextManager.getDictNameByTypeAId(td.getType().split("_")[1], obj_td.toString()));
 								}else{
 									str_td.append(obj_td);
 								}

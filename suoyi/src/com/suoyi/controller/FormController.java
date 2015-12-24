@@ -1,6 +1,5 @@
 package com.suoyi.controller;
 
-import java.beans.PropertyDescriptor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +21,6 @@ import com.suoyi.sys.ContextManager;
 import com.suoyi.ui.PageModel;
 import com.suoyi.ui.form.Form;
 import com.suoyi.ui.form.FormField;
-import com.suoyi.ui.qlist.ContentTD;
 import com.suoyi.util.SessionUtil;
 
 @Controller
@@ -45,14 +42,14 @@ public class FormController {
 				throw new Exception("目标页面[" + target + "]不存在!");
 			}
 			String formid = (String) map_1.get("formid");
+			String dialogid = (String) map_1.get("dialogid");
 			if (StringUtils.isBlank(formid)) {
 				throw new Exception("form[" + formid + "]未定义!");
 			}
 			PageModel page = ContextManager.getPageByTarget(target);
 			Form form = page.getFormById(formid);
 			if (form == null) {
-				throw new Exception("页面[" + target + "]中不包含form[" + formid
-						+ "]!");
+				throw new Exception("页面[" + target + "]中不包含form[" + formid + "]!");
 			}
 			String action = (String) map_1.get("action");
 			if (StringUtils.isBlank(action)) {
@@ -122,6 +119,8 @@ public class FormController {
 
 			if (bean != null) {
 				Map valueMap = getValueMap(form, bean);
+				if(dialogid!=null)
+					valueMap.put("dialogid", dialogid);
 				model.addAttribute("valueMap", valueMap);
 			}else{
 				model.addAttribute("valueMap", new HashMap());
@@ -130,7 +129,7 @@ public class FormController {
 			model.addAttribute("svcMethod", svcMethod);
 			model.addAttribute("user", user);
 			model.addAttribute("btnlabel", btnlabel);
-			model.addAttribute("actionType", action);
+			model.addAttribute("action", action);
 
 			return "jsp/form.jsp";
 		} catch (Exception e) {

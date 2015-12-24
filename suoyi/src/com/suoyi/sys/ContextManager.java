@@ -39,15 +39,20 @@ public class ContextManager {
 	public static Map<Integer, List<Dict>> dict = new HashMap<Integer, List<Dict>>();
 
 	public static void init() {
+		System.out.println("init System ContextManager start...");
+		long starttime = System.currentTimeMillis();
 		initMenu();
 		initPage();
 		initDict();
+		System.out.println("耗时："+(System.currentTimeMillis()-starttime)+"ms ... 系统资源管理器 ...System ContextManager Initialized sucess");
 	}
 
 	/**
 	 * 初始化系统菜单
 	 */
 	private static void initMenu() {
+		long starttime = System.currentTimeMillis();
+		System.out.println("init System menu start...");
 		SAXReader reader = new SAXReader();
 		InputStream input = null;
 		try {
@@ -81,7 +86,7 @@ public class ContextManager {
 
 				menu.add(m);
 			}
-			System.out.println("系统菜单初始化完成...System menu Initialized sucess");
+			System.out.println("耗时："+(System.currentTimeMillis()-starttime)+"ms ... System menu Initialized sucess...");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -95,7 +100,8 @@ public class ContextManager {
 	 * 初始化系统页面
 	 */
 	private static void initPage() {
-
+		long starttime = System.currentTimeMillis();
+		System.out.println("init System page start...");
 		SAXReader reader = new SAXReader();
 		InputStream input = null;
 		try {
@@ -142,7 +148,7 @@ public class ContextManager {
 				}
 				pages.put(page.getId(), page);
 			}
-			System.out.println("系统页面初始化完成...System page Initialized sucess");
+			System.out.println("耗时："+(System.currentTimeMillis()-starttime)+"ms ... System page Initialized sucess...");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -205,6 +211,8 @@ public class ContextManager {
 		form.setHibean(ele.attributeValue("hibean"));
 		form.setSvc(ele.attributeValue("svc"));
 		form.setBtnlabel(ele.attributeValue("btnlabel"));
+		form.setDefcon(ele.attributeValue("defcon"));
+		form.setOrder(ele.attributeValue("order"));
 		
 		List<Element> e_sfs = ele.elements();
 		for (Element esf : e_sfs) {
@@ -224,6 +232,8 @@ public class ContextManager {
 	 * 初始化系统字典
 	 */
 	private static void initDict() {
+		long starttime = System.currentTimeMillis();
+		System.out.println("init System dict start...");
 		try {
 			List<DictMap> sys_dict_map = SessionUtil.getSession()
 					.createQuery("From DictMap").list();
@@ -235,7 +245,7 @@ public class ContextManager {
 						.list();
 				dict.put(Integer.valueOf(dcm.getTypeid()), dicts);
 			}
-			System.out.println("系统字典初始化完成...System Dict Initialized sucess");
+			System.out.println("耗时："+(System.currentTimeMillis()-starttime)+"ms ... System Dict Initialized sucess...");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -245,7 +255,15 @@ public class ContextManager {
 		List<Dict> list = dict.get(Integer.parseInt(typeid));
 		return list;
 	}
-
+	
+	public static String getDictNameByTypeAId(String typeid,String id){
+		for(Dict d:dict.get(Integer.parseInt(typeid))){
+			if(d.getSid()==Integer.parseInt(id))
+				return d.getName();
+		}
+		return "";
+	}
+	
 	public static PageModel getPageByTarget(String target) {
 		return pages.get(target);
 	}

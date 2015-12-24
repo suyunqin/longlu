@@ -67,7 +67,7 @@ a:hover {
 	}
 </script>
 </head>
-<body>
+<body id="body_window_con">
 	<%
 		UserBean user = ContextManager.getCurUser(request);
 	%>

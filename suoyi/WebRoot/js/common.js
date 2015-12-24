@@ -42,7 +42,6 @@ function doQuery(page_id,curPage,pageSize,target) {
 
 function jumpPage(page_id,pageSize,target) {
 	var curPage = $("#targetpage_"+page_id).val();
-	
 	doQuery(page_id, curPage, pageSize, target);
 }
 
@@ -51,15 +50,30 @@ function doClear(pageid,name) {
 }
 
 function doSubmitForm(pageid,target,formid) {
-	$("#form_"+page_id).form('submit',{
-		url:'action.do',
+	$("#form_"+pageid).form('submit',{
+		url:'submit.do',
 		success:function(data){
-			$('#div_tabs_index').tabs('update', {
-				tab: tab,
-				options: {
-					content: data
-				}
-			});
+			var Jdata = JSON.parse(data);
+			if(Jdata.val){
+				alert("操作成功!");
+				doCloseWindos(Jdata.dialogid);
+			}else{
+				alert(Jdata.error);
+			}
 		}
+	});
+}
+
+function doCloseWindos(dialogid) {
+	$("#dialog_"+dialogid).window('close');
+}
+
+function doOpenWindow(href,dialogid) {
+	$("#body_window_con").append("<div id=\"dialog_"+dialogid+"\"></div>");
+	$("#dialog_"+dialogid).window({
+		title:'新窗口',
+		width:window_width*0.8,
+		height:window_height*0.8,
+		href:href+"&dialogid="+dialogid
 	});
 }

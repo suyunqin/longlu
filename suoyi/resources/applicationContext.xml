@@ -8,6 +8,8 @@
      http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
      http://www.springframework.org/schema/tx
      http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	
+	
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -33,6 +35,8 @@
 		</property>
 	</bean>
 
+	<bean id="HibernateLogInterceptor" class="com.suoyi.sys.interceptor.HibernateLogInterceptor"/>
+
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource">
@@ -40,8 +44,14 @@
 		</property>
 		<property name="configLocation" value="classpath:hib.cfg.xml" />
 		<property name="mappingLocations" value="classpath:hibmaps/*.xml" />
+		<property name="entityInterceptor" ref="HibernateLogInterceptor"/>
 	</bean>
-
+	
+	<bean id="openSessionInView"
+		class="org.springframework.orm.hibernate4.support.OpenSessionInViewFilter">
+		<property name="sessionFactoryBeanName" value="sessionFactory" />
+	</bean>
+	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="configLocation" value="classpath:MyBatis-Configuration.xml"></property>

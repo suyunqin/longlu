@@ -51,7 +51,7 @@ public class ServiceUtil implements ApplicationContextAware {
 		while(keys.hasNext()){
 			String key = keys.next();
 			String value = (String) ((Object[])reqParam.get(key))[0];
-			if(StringUtils.isNotBlank(value)&&!"-È«²¿-".equals(value)){
+			if(StringUtils.isNotBlank(value)){
 				map_1.put(key, value);
 			}
 		}
